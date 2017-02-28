@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 public class RootServlet extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try { 
-            HttpSession session = request.getSession(false);
+            HttpSession session = request.getSession(true);
             if (session.getAttribute("authenticated") == null) {
                 request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request,response);
                 return;

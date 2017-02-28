@@ -3,7 +3,7 @@
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <link href="${pageContext.request.contextPath}/CSS/narrow-jumbotron.css" rel="stylesheet">
-    <title>Fabflix</title>
+    <title>CalorieWatch</title>
 </head>
 <body>
 <div class="container">
