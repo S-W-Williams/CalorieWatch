@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("")
-public class RootServlet extends HttpServlet{
+@WebServlet("/Home")
+public class HomeServlet extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try { 
+        try {
             HttpSession session = request.getSession(true);
             if (session.getAttribute("authenticated") == null) {
                 //request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request,response);
@@ -20,7 +20,7 @@ public class RootServlet extends HttpServlet{
                 return;
             }
             else {
-                response.sendRedirect(request.getContextPath() + "/Home");
+                request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request,response);
                 return;
             }
         } catch (Exception e) {

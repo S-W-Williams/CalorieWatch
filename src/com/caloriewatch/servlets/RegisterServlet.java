@@ -9,14 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("")
-public class RootServlet extends HttpServlet{
+@WebServlet("/Register")
+public class RegisterServlet extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try { 
+        try {
             HttpSession session = request.getSession(true);
             if (session.getAttribute("authenticated") == null) {
-                //request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request,response);
-                response.sendRedirect(request.getContextPath() + "/Login");
+                request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request,response);
                 return;
             }
             else {

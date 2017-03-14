@@ -9,18 +9,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("")
-public class RootServlet extends HttpServlet{
+@WebServlet("/Login")
+public class LoginServlet extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try { 
+        try {
             HttpSession session = request.getSession(true);
             if (session.getAttribute("authenticated") == null) {
-                //request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request,response);
-                response.sendRedirect(request.getContextPath() + "/Login");
+                request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request,response);
                 return;
             }
             else {
-                response.sendRedirect(request.getContextPath() + "/Home");
+                //request.getRequestDispatcher("/WEB-INF/home.jsp").forward(request,response);
+                response.sendRedirect(request.getContextPath());
                 return;
             }
         } catch (Exception e) {

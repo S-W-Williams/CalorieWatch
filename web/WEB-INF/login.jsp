@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-3"></div>
             <div class="col-6">
-                <form action="/Login" method="POST">
+                <form action="/Login/Submit" method="POST">
                     <div class="form-group">
                         <input type="text" required class="form-control" id="username" name="username">
                     </div>
@@ -29,6 +29,12 @@
                 </form>
 
 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6">
+                No account? Sign up <a href="${pageContext.request.contextPath}/Register">here</a>
             </div>
         </div>
     </div>
