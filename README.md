@@ -8,8 +8,9 @@ https://www.jetbrains.com/help/idea/2016.3/creating-and-running-your-first-web-a
 ## Dependencies
 - YelpAPI
 
-json-simple
-https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple/1.1.1
+- json-simple https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple/1.1.1
+- scribe https://mvnrepository.com/artifact/org.scribe/scribe/1.3.5
+- jBCrypt-0.4 http://grepcode.com/snapshot/repo1.maven.org/maven2/de.svenkubiak/jBCrypt/0.4
+- mysql-connector-java-6.0.5 https://mvnrepository.com/artifact/mysql/mysql-connector-java/6.0.5
 
-scribe
-https://mvnrepository.com/artifact/org.scribe/scribe/1.3.5
+All jars are included in the WEB-INF/lib folder.
