@@ -25,7 +25,9 @@ public class LoginSubmitServlet extends HttpServlet{
         Boolean success = databaseQueries.validateLogin(username, password);
 
         if (success) {
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
+            HttpSession session = request.getSession(true);
+            session.setAttribute("authenticated", true);
+            response.sendRedirect(request.getContextPath() + "/Home");
         } else {
             request.setAttribute("message", "Invalid credentials!");
             request.getRequestDispatcher("/Login").forward(request,response);

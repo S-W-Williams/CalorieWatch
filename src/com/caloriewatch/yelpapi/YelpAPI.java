@@ -4,6 +4,7 @@ package com.caloriewatch.yelpapi;
  * Created by bumbl on 3/8/2017.
  */
 
+import java.util.ArrayList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -38,11 +39,11 @@ public class YelpAPI {
     private Token accessToken;
 
     // Constructor to setup Yelp API OAuth credentials
-    public YelpAPI(String consumerKey, String consumerSecret, String token, String tokenSecret) {
+    public YelpAPI() {
         this.service =
-                new ServiceBuilder().provider(TwoStepOAuth.class).apiKey(consumerKey)
-                        .apiSecret(consumerSecret).build();
-        this.accessToken = new Token(token, tokenSecret);
+                new ServiceBuilder().provider(TwoStepOAuth.class).apiKey(CONSUMER_KEY)
+                        .apiSecret(CONSUMER_SECRET).build();
+        this.accessToken = new Token(TOKEN, TOKEN_SECRET);
     }
 
     // Creates and sends a request to the Search API by term and location.
@@ -78,9 +79,9 @@ public class YelpAPI {
     /* Queries the Search API based request params and takes the first result to query
      * the Business API
      */
-    private static void queryAPI(YelpAPI yelpApi, YelpAPIRequest yelpApiReq) {
+    public void queryAPI(YelpAPIRequest yelpApiReq) {
         String searchResponseJSON =
-                yelpApi.searchForBusinessesByLocation(yelpApiReq.term, yelpApiReq.location);
+                this.searchForBusinessesByLocation(yelpApiReq.term, yelpApiReq.location);
 
         JSONParser parser = new JSONParser();
         JSONObject response = null;
@@ -89,7 +90,6 @@ public class YelpAPI {
         } catch (ParseException pe) {
             System.out.println("Error: could not parse JSON response:");
             System.out.println(searchResponseJSON);
-            System.exit(1);
         }
 
         JSONArray businesses = (JSONArray) response.get("businesses");
@@ -101,15 +101,15 @@ public class YelpAPI {
                 businesses.size(), firstBusinessID));
 
         // Select the first business and display business details
-        String businessResponseJSON = yelpApi.searchByBusinessId(firstBusinessID.toString());
+        String businessResponseJSON = this.searchByBusinessId(firstBusinessID.toString());
         System.out.println(String.format("Result for business \"%s\" found:", firstBusinessID));
         System.out.println(businessResponseJSON);
     }
 
     // Queries Search API and returns list (JSONArray) of businesses
-    private static JSONArray queryAPIForBusinessList(YelpAPI yelpApi, YelpAPIRequest yelpApiReq) {
+    public ArrayList<Restaurant> queryAPIForBusinessList(YelpAPIRequest yelpApiReq) {
         String searchResponseJSON =
-                yelpApi.searchForBusinessesByLocation(yelpApiReq.term, yelpApiReq.location);
+                this.searchForBusinessesByLocation(yelpApiReq.term, yelpApiReq.location);
 
         JSONParser parser = new JSONParser();
         JSONObject response = null;
@@ -118,28 +118,32 @@ public class YelpAPI {
         } catch (ParseException pe) {
             System.out.println("Error: could not parse JSON response:");
             System.out.println(searchResponseJSON);
-            System.exit(1);
+            return null;
         }
 
         JSONArray businesses = (JSONArray) response.get("businesses");
+        ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
+        for(int i = 0; i < businesses.size(); i++) {
+            JSONObject business = (JSONObject) businesses.get(i);
 
-        return businesses;
+            // JSON Object handling will occur in Restaurant constructor
+            Restaurant r = new Restaurant(
+                    business.get("name"),
+                    business.get("id"),
+                    business.get("rating"),
+                    business.get("location"),
+                    business.get("phone"),
+                    business.get("categories"),
+                    business.get("url"));
+            restaurants.add(r);
+        }
+
+        return restaurants;
     }
 
   /* NOTE:
    * To access elements in JSONArray: http://juliusdavies.ca/json-simple-1.1.1-javadocs/org/json/simple/JSONArray.html
    * To access members in JSONObject: http://juliusdavies.ca/json-simple-1.1.1-javadocs/org/json/simple/JSONObject.html
    * */
-
-
-  /*
-  // Main function for testing
-  public static void main(String[] args) {
-    //YelpAPIRequest yelpApiReq = new YelpAPIRequest("japanese", "Irvine, CA");
-	YelpAPIRequest yelpApiReq = new YelpAPIRequest("restaurants", "Irvine, CA");
-	System.out.println(yelpApiReq.term + " " + yelpApiReq.location);
-    YelpAPI yelpApi = new YelpAPI(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
-    System.out.println(queryAPIForBusinessList(yelpApi, yelpApiReq));
-  }*/
 }
 

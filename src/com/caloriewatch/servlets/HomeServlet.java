@@ -15,7 +15,6 @@ public class HomeServlet extends HttpServlet{
         try {
             HttpSession session = request.getSession(true);
             if (session.getAttribute("authenticated") == null) {
-                //request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request,response);
                 response.sendRedirect(request.getContextPath() + "/Login");
                 return;
             }

@@ -16,11 +16,11 @@
             <div class="col-6">
                 <form action="/Login/Submit" method="POST">
                     <div class="form-group">
-                        <input type="text" required class="form-control" id="username" name="username">
+                        <input type="text" placeholder="Username" required class="form-control" id="username" name="username">
                     </div>
 
                     <div class="form-group">
-                        <input type="password" required class="form-control" id="password" name="password">
+                        <input type="password" placeholder="Password" required class="form-control" id="password" name="password">
                     </div>
 
                     <p class="lead">${message}</p>

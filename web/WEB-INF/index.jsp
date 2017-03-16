@@ -5,7 +5,7 @@
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   <link href="${pageContext.request.contextPath}/CSS/narrow-jumbotron.css" rel="stylesheet">
-  <title>Fabflix</title>
+  <title>CalorieWatch</title>
 </head>
 <body>
 <div class="container">
@@ -31,17 +31,19 @@
 
         <div class="row">
           <div class="mx-auto" style="width: 800px">
-            <div class="input-group input-group-lg" style="vertical-align: middle;">
-              <input type="text" placeholder="Search" class="form-control" name="query" id="query">
-            </div>
-            <div class="pt-2">
-              <div class="btn-group">
-                <button type="button" class="btn btn-info" href="/Search" id="searchButton">Search</button>
+            <form action="/Search" method="POST">
+              <div class="input-group input-group-lg" style="vertical-align: middle;">
+                <input type="text" placeholder="Search" class="form-control" name="query" id="query">
+                <input type="text" placeholder="Location" class="form-control" name="location" id="location" value="Irvine, CA">
+              </div>
+              <div class="pt-2">
+                <div class="btn-group">
+                  <input type="submit" class="btn btn-info" id="searchButton" value="Search"></input>
 
+                </div>
 
               </div>
-
-            </div>
+            </form>
 
 
           </div>
