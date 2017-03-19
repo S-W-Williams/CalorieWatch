@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+
+import com.caloriewatch.Entry;
+import com.caloriewatch.Restaurant;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class DatabaseQueries {
@@ -69,5 +73,99 @@ public class DatabaseQueries {
             return false;
         }
         return false;
+    }
+
+    public float getHealthScore(String restaurant) {
+        Connection conn;
+        PreparedStatement stmt;
+
+        try {
+            Class.forName(databaseInfo.JDBC_DRIVER).newInstance();
+            conn = DriverManager.getConnection(databaseInfo.DB_URL, databaseInfo.DB_USERNAME, databaseInfo.DB_PASSWORD);
+            stmt = conn.prepareStatement("select * from healthScores where title = ?");
+            stmt.setString(1, restaurant);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                return rs.getFloat("score");
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+        return 0;
+    }
+
+    public ArrayList<Entry> getEntries(String restaurant) {
+        ArrayList<Entry> entries = new ArrayList<Entry>();
+        Connection conn;
+        PreparedStatement stmt;
+
+        try {
+            Class.forName(databaseInfo.JDBC_DRIVER).newInstance();
+            conn = DriverManager.getConnection(databaseInfo.DB_URL, databaseInfo.DB_USERNAME, databaseInfo.DB_PASSWORD);
+            stmt = conn.prepareStatement("select * from menuItems where title = ?");
+            stmt.setString(1, restaurant);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String item = rs.getString("item");
+                int calories = rs.getInt("calories");
+                entries.add(new Entry(item, calories));
+            }
+        } catch (Exception e) {
+            return entries;
+        }
+        return entries;
+    }
+
+    public ArrayList<String> getCategories(String restaurant) {
+        ArrayList<String> categories = new ArrayList<String>();
+        Connection conn;
+        PreparedStatement stmt;
+
+        try {
+            Class.forName(databaseInfo.JDBC_DRIVER).newInstance();
+            conn = DriverManager.getConnection(databaseInfo.DB_URL, databaseInfo.DB_USERNAME, databaseInfo.DB_PASSWORD);
+            stmt = conn.prepareStatement("select * from categories where title = ?");
+            stmt.setString(1, restaurant);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String category = rs.getString("title");
+                categories.add(category);
+            }
+        } catch (Exception e) {
+            return categories;
+        }
+
+        return categories;
+    }
+
+    public ArrayList<Restaurant> searchCategories(String query) {
+        ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
+        Connection conn;
+        PreparedStatement stmt;
+
+        try {
+            Class.forName(databaseInfo.JDBC_DRIVER).newInstance();
+            conn = DriverManager.getConnection(databaseInfo.DB_URL, databaseInfo.DB_USERNAME, databaseInfo.DB_PASSWORD);
+            stmt = conn.prepareStatement("select distinct * from categories where category like ?");
+            stmt.setString(1, "%" + query + "%");
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String restaurantName = rs.getString("title");
+                float healthScore = getHealthScore(restaurantName);
+                Restaurant restaurant = new Restaurant(restaurantName, healthScore);
+                restaurant.categories = getCategories(restaurantName);
+                restaurant.entries = getEntries(restaurantName);
+                restaurants.add(restaurant);
+            }
+
+        } catch (Exception e) {
+            return restaurants;
+        }
+
+        return restaurants;
     }
 }

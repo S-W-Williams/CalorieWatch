@@ -23,9 +23,9 @@
                     <div class="form-group">
                         Password: <input type="password" required class="form-control" id="password" name="password">
                     </div>
-                    <input type="hidden" name="lat" value="">
-                    <input type="hidden" name="long" value="">
-                    Your location: <div id="userLocation"> Please allow Chrome location.</div>
+                    <input type="hidden" name="lat" id="lat" value="">
+                    <input type="hidden" name="lng" id="lng" value="">
+                    Your location: <div id="userLocation"> Please allow sharing of browser location.</div>
 
                     <p class="lead">${message}</p>
                     <c:remove var="message" scope="session" />
@@ -43,10 +43,11 @@
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 var lat = position.coords.latitude;
-                var long = position.coords.longitude;
-                $('#lat').val(lat);
-                $('#long').val(long);
-                document.getElementById("userLocation").innerHTML = lat + "," + long;
+                var lng = position.coords.longitude;
+
+                document.getElementById("lat").value = lat;
+                document.getElementById("lng").value = lng;
+                document.getElementById("userLocation").innerHTML = lat + "," + lng;
             }, function() {
                 handleLocationError(true, infoWindow, map.getCenter());
             });

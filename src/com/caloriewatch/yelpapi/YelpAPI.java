@@ -22,7 +22,7 @@ public class YelpAPI {
     private static final String API_HOST = "api.yelp.com";
 
     // Search params
-    private static final int SEARCH_LIMIT = 10;
+    private static final int SEARCH_LIMIT = 50;
     private static final String DEFAULT_CATEGORY_FILTER = "food";
 
     // API Paths
@@ -30,10 +30,10 @@ public class YelpAPI {
     private static final String BUSINESS_PATH = "/v2/business";
 
     // OAuth credentials
-    private static final String CONSUMER_KEY = "";
-    private static final String CONSUMER_SECRET = "";
-    private static final String TOKEN = "";
-    private static final String TOKEN_SECRET = "";
+    private static final String CONSUMER_KEY = "Yk540wpoQIo9OEz7rc7zEQ";
+    private static final String CONSUMER_SECRET = "VJmqT9pPO2RrO2LqhyDM8IwvAOQ";
+    private static final String TOKEN = "1QLaj41nGT0zzd4_ssqvMnnTPW9vAMFJ";
+    private static final String TOKEN_SECRET = "dVRVWbGgj7814omIrO9_ga8dGQ8";
 
     private OAuthService service;
     private Token accessToken;
@@ -51,7 +51,7 @@ public class YelpAPI {
         OAuthRequest request = createOAuthRequest(SEARCH_PATH);
         request.addQuerystringParameter("term", term);
         request.addQuerystringParameter("location", location);
-        request.addQuerystringParameter("limit", String.valueOf(SEARCH_LIMIT));
+        //request.addQuerystringParameter("limit", String.valueOf(SEARCH_LIMIT));
         request.addQuerystringParameter("category_filter", DEFAULT_CATEGORY_FILTER);
         return sendRequestAndGetResponse(request);
     }

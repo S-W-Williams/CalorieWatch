@@ -27,6 +27,7 @@ public class LoginSubmitServlet extends HttpServlet{
         if (success) {
             HttpSession session = request.getSession(true);
             session.setAttribute("authenticated", true);
+            session.setAttribute("username", username);
             response.sendRedirect(request.getContextPath() + "/Home");
         } else {
             request.setAttribute("message", "Invalid credentials!");

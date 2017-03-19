@@ -33,7 +33,7 @@
           <div class="mx-auto" style="width: 800px">
             <form action="/Search" method="POST">
               <div class="input-group input-group-lg" style="vertical-align: middle;">
-                <input type="text" placeholder="Search" class="form-control" name="query" id="query">
+                <input type="text" placeholder="Search for a category" class="form-control" name="query" id="query">
                 <input type="text" placeholder="Location" class="form-control" name="location" id="location" value="Irvine, CA">
               </div>
               <div class="pt-2">

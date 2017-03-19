@@ -25,7 +25,13 @@ public class RegisterSubmitServlet extends HttpServlet{
             lat = Float.valueOf(request.getParameter("lat"));
             lng = Float.valueOf(request.getParameter("lng"));
         } catch (Exception e) {
-            //Some error handling here...
+            request.setAttribute("message", "Your location is invalid!");
+            request.getRequestDispatcher("/Register").forward(request,response);
+        }
+
+        if (lat == 0 && lng == 0) {
+            request.setAttribute("message", "You must have a valid location to use CalorieWatch.");
+            request.getRequestDispatcher("/Register").forward(request,response);
         }
 
         InputStream input = getServletContext().getResourceAsStream("/WEB-INF/database_config.properties");
