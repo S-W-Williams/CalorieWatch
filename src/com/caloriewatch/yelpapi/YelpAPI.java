@@ -23,6 +23,7 @@ public class YelpAPI {
 
     // Search params
     private static final int SEARCH_LIMIT = 50;
+    private static final int INDIVIDUAL_BUSINESS_SEARCH_LIMIT = 3;
     private static final String DEFAULT_CATEGORY_FILTER = "food";
 
     // API Paths
@@ -76,36 +77,6 @@ public class YelpAPI {
         return response.getBody();
     }
 
-    /* Queries the Search API based request params and takes the first result to query
-     * the Business API
-     */
-    public void queryAPI(YelpAPIRequest yelpApiReq) {
-        String searchResponseJSON =
-                this.searchForBusinessesByLocation(yelpApiReq.term, yelpApiReq.location);
-
-        JSONParser parser = new JSONParser();
-        JSONObject response = null;
-        try {
-            response = (JSONObject) parser.parse(searchResponseJSON);
-        } catch (ParseException pe) {
-            System.out.println("Error: could not parse JSON response:");
-            System.out.println(searchResponseJSON);
-        }
-
-        JSONArray businesses = (JSONArray) response.get("businesses");
-        System.out.format("Businesses %s", businesses.toString());
-        JSONObject firstBusiness = (JSONObject) businesses.get(0);
-        String firstBusinessID = firstBusiness.get("id").toString();
-        System.out.println(String.format(
-                "%s businesses found, querying business info for the top result \"%s\" ...",
-                businesses.size(), firstBusinessID));
-
-        // Select the first business and display business details
-        String businessResponseJSON = this.searchByBusinessId(firstBusinessID.toString());
-        System.out.println(String.format("Result for business \"%s\" found:", firstBusinessID));
-        System.out.println(businessResponseJSON);
-    }
-
     // Queries Search API and returns list (JSONArray) of businesses
     public ArrayList<Restaurant> queryAPIForBusinessList(YelpAPIRequest yelpApiReq) {
         String searchResponseJSON =
@@ -139,6 +110,37 @@ public class YelpAPI {
         }
 
         return restaurants;
+    }
+
+    // Queries Search API and returns the top result
+    public Restaurant queryAPIForBusiness(YelpAPIRequest yelpApiReq) {
+        String searchResponseJSON =
+                this.searchForBusinessesByLocation(yelpApiReq.term, yelpApiReq.location);
+
+        JSONParser parser = new JSONParser();
+        JSONObject response = null;
+        try {
+            response = (JSONObject) parser.parse(searchResponseJSON);
+        } catch (ParseException pe) {
+            System.out.println("Error: could not parse JSON response:");
+            System.out.println(searchResponseJSON);
+            return null;
+        }
+
+        JSONArray businesses = (JSONArray) response.get("businesses");
+        JSONObject business = (JSONObject) businesses.get(0);
+
+        // JSON Object handling will occur in Restaurant constructor
+        Restaurant r = new Restaurant(
+                business.get("name"),
+                business.get("id"),
+                business.get("rating"),
+                business.get("location"),
+                business.get("phone"),
+                business.get("categories"),
+                business.get("url"));
+
+        return r;
     }
 
   /* NOTE:
