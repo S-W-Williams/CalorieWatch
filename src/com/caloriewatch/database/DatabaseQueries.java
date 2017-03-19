@@ -89,6 +89,7 @@ public class DatabaseQueries {
             while (rs.next()) {
                 return rs.getFloat("score");
             }
+            conn.close();
         } catch (Exception e) {
             return 0;
         }
@@ -112,6 +113,7 @@ public class DatabaseQueries {
                 int calories = rs.getInt("calories");
                 entries.add(new Entry(item, calories));
             }
+            conn.close();
         } catch (Exception e) {
             return entries;
         }
@@ -131,9 +133,10 @@ public class DatabaseQueries {
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                String category = rs.getString("title");
+                String category = rs.getString("category");
                 categories.add(category);
             }
+            conn.close();
         } catch (Exception e) {
             return categories;
         }
@@ -149,7 +152,8 @@ public class DatabaseQueries {
         try {
             Class.forName(databaseInfo.JDBC_DRIVER).newInstance();
             conn = DriverManager.getConnection(databaseInfo.DB_URL, databaseInfo.DB_USERNAME, databaseInfo.DB_PASSWORD);
-            stmt = conn.prepareStatement("select distinct * from categories where category like ?");
+            //stmt = conn.prepareStatement("select distinct * from categories where category like ?");
+            stmt = conn.prepareStatement("SELECT distinct(c.title), score FROM categories c JOIN healthScores h where c.title = h.title and c.category LIKE ? AND NOT score = 0 GROUP BY (score) LIMIT 10");
             stmt.setString(1, "%" + query + "%");
 
             ResultSet rs = stmt.executeQuery();
@@ -161,11 +165,10 @@ public class DatabaseQueries {
                 restaurant.entries = getEntries(restaurantName);
                 restaurants.add(restaurant);
             }
-
+            conn.close();
         } catch (Exception e) {
             return restaurants;
         }
-
         return restaurants;
     }
 }

@@ -9,7 +9,7 @@ public class Restaurant {
     public ArrayList<String> categories;
     public ArrayList<Entry> entries;
 
-    public Restaurant(String name, float healthscore) {
+    public Restaurant(String name, float healthScore) {
         this.name = name;
         this.healthScore = healthScore;
     }

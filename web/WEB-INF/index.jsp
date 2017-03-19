@@ -23,7 +23,7 @@
   <div class="row">
     <div class="col-12">
       <div class="jumbotron" style="background:transparent !important">
-        <h3 class="display-3">Welcome to </h3>
+        <h3 class="display-3">Welcome to CalorieWatch</h3>
 
         <h4>Hello, ${name}.</h4>
         <br>
@@ -34,18 +34,12 @@
             <form action="/Search" method="POST">
               <div class="input-group input-group-lg" style="vertical-align: middle;">
                 <input type="text" placeholder="Search for a category" class="form-control" name="query" id="query">
-                <input type="text" placeholder="Location" class="form-control" name="location" id="location" value="Irvine, CA">
-              </div>
-              <div class="pt-2">
-                <div class="btn-group">
-                  <input type="submit" class="btn btn-info" id="searchButton" value="Search"></input>
-
-                </div>
-
+                <span class="input-group-btn">
+                                    <input type="submit" class="btn btn-info" id="searchButton" value="Search">
+                                </span>
+                <!-- <input type="text" placeholder="Location" class="form-control" name="location" id="location" value="Irvine, CA"> -->
               </div>
             </form>
-
-
           </div>
         </div>
 
