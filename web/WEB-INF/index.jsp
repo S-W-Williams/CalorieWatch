@@ -25,7 +25,7 @@
       <div class="jumbotron" style="background:transparent !important">
         <h3 class="display-3">Welcome to CalorieWatch</h3>
 
-        <h4>Hello, ${name}.</h4>
+        <h4>Hello, ${username}.</h4>
         <br>
         <br>
 

@@ -48,12 +48,13 @@ public class YelpAPI {
     }
 
     // Creates and sends a request to the Search API by term and location.
-    public String searchForBusinessesByLocation(String term, String location) {
+    public String searchForBusinessesByLocation(String term, float lat, float lng) {
         OAuthRequest request = createOAuthRequest(SEARCH_PATH);
         request.addQuerystringParameter("term", term);
-        request.addQuerystringParameter("location", location);
+        String ll = String.valueOf(lat) + "," + String.valueOf(lng) + ",1";
+        request.addQuerystringParameter("ll", ll);
         //request.addQuerystringParameter("limit", String.valueOf(SEARCH_LIMIT));
-        request.addQuerystringParameter("category_filter", DEFAULT_CATEGORY_FILTER);
+        //request.addQuerystringParameter("category_filter", DEFAULT_CATEGORY_FILTER);
         return sendRequestAndGetResponse(request);
     }
 
@@ -80,7 +81,7 @@ public class YelpAPI {
     // Queries Search API and returns list (JSONArray) of businesses
     public ArrayList<Restaurant> queryAPIForBusinessList(YelpAPIRequest yelpApiReq) {
         String searchResponseJSON =
-                this.searchForBusinessesByLocation(yelpApiReq.term, yelpApiReq.location);
+                this.searchForBusinessesByLocation(yelpApiReq.term, yelpApiReq.lat, yelpApiReq.lng);
 
         JSONParser parser = new JSONParser();
         JSONObject response = null;
@@ -115,7 +116,7 @@ public class YelpAPI {
     // Queries Search API and returns the top result
     public Restaurant queryAPIForBusiness(YelpAPIRequest yelpApiReq) {
         String searchResponseJSON =
-                this.searchForBusinessesByLocation(yelpApiReq.term, yelpApiReq.location);
+                this.searchForBusinessesByLocation(yelpApiReq.term, yelpApiReq.lat, yelpApiReq.lng);
 
         JSONParser parser = new JSONParser();
         JSONObject response = null;
@@ -142,6 +143,7 @@ public class YelpAPI {
 
         return r;
     }
+
 
   /* NOTE:
    * To access elements in JSONArray: http://juliusdavies.ca/json-simple-1.1.1-javadocs/org/json/simple/JSONArray.html

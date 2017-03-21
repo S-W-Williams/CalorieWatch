@@ -43,13 +43,13 @@ public class SearchServlet extends HttpServlet {
 //            ArrayList<Restaurant> restaurantList = yelpAPI.queryAPIForBusinessList(yelpReq);
 //            request.setAttribute("restaurantResults", restaurantList);
             String query = request.getParameter("query");
+            float lat = (float) session.getAttribute("lat");
+            float lng = (float) session.getAttribute("lng");
             InputStream input = getServletContext().getResourceAsStream("/WEB-INF/database_config.properties");
             DatabaseInfo databaseInfo = new DatabaseInfo(input);
             DatabaseQueries databaseQueries = new DatabaseQueries(databaseInfo);
-            ArrayList<com.caloriewatch.Restaurant> restaurants = databaseQueries.searchCategories(query);
+            ArrayList<com.caloriewatch.Restaurant> restaurants = databaseQueries.searchCategories(query, lat, lng);
             request.setAttribute("restaurants", restaurants);
-
-
         } catch (Exception e) {
             request.setAttribute("error", "Error in Yelp Req: " + e.toString());
         }

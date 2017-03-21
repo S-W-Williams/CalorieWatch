@@ -8,6 +8,14 @@ public class Restaurant {
     public float healthScore;
     public ArrayList<String> categories;
     public ArrayList<Entry> entries;
+    public boolean available = false;
+
+    //Yelp API data
+    public float rating;
+    public String phoneNumber;
+    public String yelpUrl;
+    public String displayAddress;
+    public String address;
 
     public Restaurant(String name, float healthScore) {
         this.name = name;
@@ -37,4 +45,24 @@ public class Restaurant {
     public ArrayList<Entry> getEntries() {
         return this.entries;
     }
+
+    public boolean isAvailable() {
+        return this.available;
+    }
+
+    public void copyFromYelp(com.caloriewatch.yelpapi.Restaurant yelpRestaurant) {
+        this.rating = yelpRestaurant.getRating();
+        this.phoneNumber = yelpRestaurant.getPhoneNumber();
+        this.yelpUrl = yelpRestaurant.getYelpUrl();
+        this.displayAddress = yelpRestaurant.getDisplayAddress();
+        this.address = yelpRestaurant.getAddress();
+        this.displayAddress = this.displayAddress.replaceAll("[\\[\\](){}]","");
+        this.displayAddress = this.displayAddress.replaceAll("\"", "");
+    }
+
+    public float getRating() { return rating; }
+    public String getPhoneNumber() { return phoneNumber; }
+    public String getYelpUrl() { return yelpUrl; }
+    public String getDisplayAddress() { return displayAddress; }
+    public String getAddress() { return address; }
 }

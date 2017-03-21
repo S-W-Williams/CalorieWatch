@@ -16,6 +16,8 @@ public class Restaurant implements java.io.Serializable
     private String phoneNumber;
     private ArrayList<String> categories;
     private String yelpUrl;
+    private String displayAddress;
+    private String address;
 
     public Restaurant(Object name, Object id, Object rating, Object location, Object phoneNumber, Object categories, Object yelpUrl) {
         // must check if null b/c some attributes are not always there (i.e phone number)
@@ -33,9 +35,11 @@ public class Restaurant implements java.io.Serializable
 
             JSONObject loc = (JSONObject) location;
             if (loc.get("display_address") != null) {
-                initLocationHelper(loc, "display_address");
+                this.displayAddress = loc.get("display_address").toString();
+                //initLocationHelper(loc, "display_address");
             } else if (loc.get("address") != null) { // fallback
-                initLocationHelper(loc, "address");
+                this.address = loc.get("address").toString();
+                //initLocationHelper(loc, "address");
             } else if (loc.get("coordinate") != null) { // final fallback
                 this.location.add(loc.get("latitude").toString());
                 this.location.add(loc.get("longitude").toString());
@@ -74,4 +78,6 @@ public class Restaurant implements java.io.Serializable
     public String getPhoneNumber() { return phoneNumber; }
     public ArrayList<String> getCategories() { return categories; }
     public java.lang.String getYelpUrl() { return yelpUrl; }
+    public String getDisplayAddress() { return displayAddress; }
+    public String getAddress() { return address; }
 }

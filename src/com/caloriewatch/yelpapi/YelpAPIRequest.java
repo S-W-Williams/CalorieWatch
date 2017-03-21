@@ -12,10 +12,17 @@ public class YelpAPIRequest {
     // instance vars
     public String term = DEFAULT_TERM;
     public String location = DEFAULT_LOCATION;
+    public float lat = 0;
+    public float lng = 0;
 
     // Constructor
-    public YelpAPIRequest(String term, String location) {
+    public YelpAPIRequest(String term) {
         this.term = term;
-        this.location = location;
+        //this.location = location;
+    }
+
+    public void setLocation(float lat, float lng) {
+        this.lat = lat;
+        this.lng = lng;
     }
 }
