@@ -48,18 +48,20 @@
                             <strong>Address:</strong> <a href="http://maps.google.com/?q=${restaurant.getDisplayAddress()}">${restaurant.getDisplayAddress()}</a>
                             <br><br>
                             <h4 class="card-title">Menu: </h4>
-                            <c:forEach items="${restaurant.getEntries()}" var="entry">
-                                <table width="100%">
-                                    <col style="width:50%">
-                                    <col style="width:50%">
-                                    <tbody>
+                            <table width="100%">
+                                <col style="width:50%">
+                                <col style="width:50%">
+                                <tbody>
+                                <c:forEach items="${restaurant.getEntries()}" var="entry">
+                                    <c:if test="${entry.getCalories() != 0}">
                                         <tr>
                                             <td>${entry.getItem()}</td>
                                             <td>Calories: ${entry.getCalories()}</td>
                                         </tr>
-                                    </tbody>
-                                </table>
-                            </c:forEach>
+                                    </c:if>
+                                </c:forEach>
+                                </tbody>
+                            </table>
                             <br>
                             <a href="${restaurant.getYelpUrl()}" class="btn btn-primary">View on Yelp</a>
                         </div>
@@ -74,18 +76,20 @@
                         <h3 class="card-header"><c:out value="${restaurant.name}"/>, Health Score: <font color="#5bc0de"><c:out value="${restaurant.healthScore}" /></font></h3>
                         <div class="card-block">
                             <h4 class="card-title">Menu: </h4>
-                            <c:forEach items="${restaurant.getEntries()}" var="entry">
-                                <table width="100%">
-                                    <col style="width:50%">
-                                    <col style="width:50%">
-                                    <tbody>
-                                    <tr>
-                                        <td>${entry.getItem()}</td>
-                                        <td>Calories: ${entry.getCalories()}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </c:forEach>
+                            <table width="100%">
+                                <col style="width:50%">
+                                <col style="width:50%">
+                                <tbody>
+                                    <c:forEach items="${restaurant.getEntries()}" var="entry">
+                                    <c:if test="${entry.getCalories() != 0}">
+                                        <tr>
+                                            <td>${entry.getItem()}</td>
+                                            <td>Calories: ${entry.getCalories()}</td>
+                                        </tr>
+                                    </c:if>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </c:if>
