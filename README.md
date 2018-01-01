@@ -1,4 +1,4 @@
-##When cloning the project:
+## When cloning the project:
   - Use Tomcat 9.0.0.M17 https://tomcat.apache.org/download-90.cgi#9.0.0.M17
 
 If you need help setting up Tomcat with IntelliJ:
